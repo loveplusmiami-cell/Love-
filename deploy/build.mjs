@@ -8,6 +8,9 @@ import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync
 const Q = '\\"';        // backslash + quote, as stored in the page template
 const END = '<\\u002F'; // "</" as stored in the page template
 
+const TITLE = 'Love Plus Miami | Activewear for Curves, Sizes XL-4X';
+const DESC = 'Activewear made for curves, color, and Miami sunshine. Sizes XL-4X. Shop the Curve Shop, join the Love Club, and move with us in Miami.';
+
 const FIXES = [
   {
     name: 'Affiliate disclosure pills: hug the text, centered',
@@ -25,6 +28,29 @@ const FIXES = [
     name: 'Gather AI card: use the Gather crowd-G logo',
     from: "{ name: 'Gather AI', initial: 'G'",
     to: "{ name: 'Gather AI', logo: 'assets/gather/gather-mark.svg', initial: 'G'",
+    times: 1,
+  },
+  {
+    name: 'Page title + search/share description (outer page, read by Google and link previews)',
+    from: '<title>Bundled Page</title>',
+    to: '<title>' + TITLE + '</title>\n' +
+      '  <meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+      '  <meta name="description" content="' + DESC + '">\n' +
+      '  <meta property="og:type" content="website">\n' +
+      '  <meta property="og:site_name" content="Love Plus Miami">\n' +
+      '  <meta property="og:title" content="' + TITLE + '">\n' +
+      '  <meta property="og:description" content="' + DESC + '">\n' +
+      '  <meta property="og:url" content="https://loveplus.xyz/">\n' +
+      '  <meta name="twitter:card" content="summary">\n' +
+      '  <link rel="canonical" href="https://loveplus.xyz/">',
+    times: 1,
+  },
+  {
+    name: 'Page title inside the site itself (browser tab)',
+    from: '<meta name=' + Q + 'viewport' + Q + ' content=' + Q + 'width=device-width, initial-scale=1' + Q + '>',
+    to: '<meta name=' + Q + 'viewport' + Q + ' content=' + Q + 'width=device-width, initial-scale=1' + Q + '>' +
+      '<title>' + TITLE + END + 'title>' +
+      '<meta name=' + Q + 'description' + Q + ' content=' + Q + DESC + Q + '>',
     times: 1,
   },
   {
