@@ -1,9 +1,10 @@
 # Love Plus Miami — go live
 
-This folder is the live site:
-- `index.html` — the whole website (shop, pages, cart). Products and checkout come from Shopify.
-- `api/signup.js` — saves Love Club, VIP list, newsletter and Miami Moves RSVPs to Neon.
+This folder is the live site, hosted on Cloudflare Pages:
+- `index.html` — the whole website (shop, pages, cart). Products and checkout come from Shopify. The build copies it into `public/`, the only folder Cloudflare publishes.
+- `functions/api/signup.js` — saves Love Club, VIP list, newsletter and Miami Moves RSVPs to Neon.
 - `schema.sql` — the database table.
+- `api/signup.js` — old Vercel version of the signup function (not used on Cloudflare).
 
 ## 1. Neon (database)
 1. In Neon, open your project → **SQL Editor**.
@@ -12,14 +13,18 @@ This folder is the live site:
 
 ## 2. GitHub
 1. Create a new repository, e.g. `love-plus-miami`.
-2. Upload everything in this folder (keep the `api` folder).
+2. Upload everything in this folder (keep the `functions` folder).
 
-## 3. Vercel (hosting)
-1. **Add New → Project** → import the GitHub repo. Framework preset: **Other**. Leave build settings empty.
-2. Before deploying, open **Environment Variables** and add:
-   - `DATABASE_URL` = your Neon connection string
-3. Click **Deploy**.
-4. **Settings → Domains** → add your domain and follow the DNS steps.
+## 3. Cloudflare Pages (hosting)
+1. **Workers & Pages → Create → Pages → Connect to Git** → pick the GitHub repo.
+2. Build settings:
+   - Framework preset: **None**
+   - Build command: `npm install && mkdir -p public && cp index.html public/`
+   - Build output directory: `public`
+   - Root directory: `deploy`
+3. Under **Environment variables**, add `DATABASE_URL` = your Neon **pooled** connection string, type **Secret** (encrypted), for Production and Preview. Never put it in GitHub.
+4. Click **Save and Deploy**.
+5. **Custom domains** → add your domain and follow the DNS steps.
 
 ## 4. Shopify
 - Products must be published to the sales channel your Storefront token belongs to (Headless or your custom app).
