@@ -163,7 +163,7 @@
       body.append(
         el('p', { class: 'lpo-step', text: 'Step 3 of 3' }),
         el('h3', { class: 'lpo-h', text: "You're in the Love Club" + (state.name ? ', ' + state.name : '') + ' 💗' }),
-        el('p', { class: 'lpo-p', text: 'Watch your inbox for your size picks and your first-order perk. Ready to shop now?' }),
+        el('p', { class: 'lpo-p', text: 'We saved your sizes and styles so we can show you what fits. Ready to shop now?' }),
         el('button', { class: 'lpo-go', type: 'button', text: 'Shop the Curve Shop', onclick: function () {
           toggle(false);
           var t = document.getElementById('shop');
