@@ -18,6 +18,12 @@ const FIXES = [
     to: 'All: (all.find(p => p.img) || {}).img || PX(3621888)',
     times: 1,
   },
+  {
+    name: 'Gather AI card: use the Gather crowd-G logo',
+    from: "{ name: 'Gather AI', initial: 'G'",
+    to: "{ name: 'Gather AI', logo: 'assets/gather/gather-mark.svg', initial: 'G'",
+    times: 1,
+  },
 ];
 
 let html = readFileSync('index.html', 'utf8');
