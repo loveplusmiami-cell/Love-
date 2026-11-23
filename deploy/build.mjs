@@ -26,6 +26,12 @@ const SOCIALS = [
 
 const FIXES = [
   {
+    name: 'Shop with Onyx: Love Club sign-up funnel + shopping chat (Powered by Onyx)',
+    from: '</body>',
+    to: '<script src="assets/onyx/onyx-widget.js" defer></script></body>',
+    times: 1,
+  },
+  {
     name: 'Affiliate disclosure pills: hug the text, centered',
     from: 'display:flex;gap:8px;font-size:10px;font-weight:700;letter-spacing:.12em',
     to: 'display:flex;gap:8px;font-size:10px;font-weight:700;letter-spacing:.12em;align-items:center;align-self:center;line-height:1.2',
