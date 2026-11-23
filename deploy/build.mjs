@@ -5,6 +5,9 @@
 // (so a site update can never silently skip a fix).
 import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync } from 'node:fs';
 
+const Q = '\\"';        // backslash + quote, as stored in the page template
+const END = '<\\u002F'; // "</" as stored in the page template
+
 const FIXES = [
   {
     name: 'Affiliate disclosure pills: hug the text, centered',
@@ -22,6 +25,20 @@ const FIXES = [
     name: 'Gather AI card: use the Gather crowd-G logo',
     from: "{ name: 'Gather AI', initial: 'G'",
     to: "{ name: 'Gather AI', logo: 'assets/gather/gather-mark.svg', initial: 'G'",
+    times: 1,
+  },
+  {
+    // The page template is stored as escaped text: Q is an escaped quote, END starts a closing tag.
+    name: 'Footer: clickable social links (@loveplusmiami)',
+    from: '<div style=' + Q + 'display:flex;gap:18px' + Q + '><span>Instagram' + END + 'span><span>TikTok' + END + 'span>',
+    to: '<div style=' + Q + 'display:flex;gap:18px;flex-wrap:wrap' + Q + '>' +
+      [
+        ['Instagram', 'https://www.instagram.com/loveplusmiami'],
+        ['TikTok', 'https://www.tiktok.com/@loveplusmiami'],
+        ['Facebook', 'https://www.facebook.com/loveplusmiami'],
+        ['YouTube', 'https://www.youtube.com/@loveplusmiami'],
+      ].map(([label, url]) => '<a href=' + Q + url + Q + ' target=' + Q + '_blank' + Q + ' rel=' + Q + 'noopener' + Q +
+        ' style=' + Q + 'color:inherit;text-decoration:none' + Q + '>' + label + END + 'a>').join(''),
     times: 1,
   },
 ];
