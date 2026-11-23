@@ -3,7 +3,7 @@
 // and copies the assets/ folder (app logos) into public/assets/.
 // Every fix must match exactly the expected number of times, or the build stops
 // (so a site update can never silently skip a fix).
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync } from 'node:fs';
 
 const FIXES = [
   {
@@ -36,5 +36,21 @@ writeFileSync('public/index.html', html);
 if (existsSync('assets')) {
   cpSync('assets', 'public/assets', { recursive: true });
   console.log('Copied assets/ to public/assets/');
+}
+
+// App logos: each brand's logo lives in its own folder (assets/<brand>/),
+// published under the exact name the page looks for.
+const LOGOS = [
+  ['assets/liveaskew', 'public/assets/liveaskew-mark.png'],
+  ['assets/onixus', 'public/assets/onixus-mark.png'],
+];
+for (const [dir, target] of LOGOS) {
+  const file = existsSync(dir) && readdirSync(dir).find(n => /\.png$/i.test(n));
+  if (file) {
+    cpSync(`${dir}/${file}`, target);
+    console.log(`Logo published: ${dir}/${file} -> ${target}`);
+  } else {
+    console.log(`Logo not added yet: ${dir} (card shows an empty box until it is)`);
+  }
 }
 console.log('Build complete.');
