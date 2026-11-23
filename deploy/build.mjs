@@ -27,8 +27,10 @@ const SOCIALS = [
 const FIXES = [
   {
     name: 'Shop with Onyx: Love Club sign-up funnel + shopping chat (Powered by Onyx)',
-    from: '</body>',
-    to: '<script src="assets/onyx/onyx-widget.js" defer></script></body>',
+    // Inside the page template (the loader swaps the whole document for it,
+    // so a tag in the outer file never runs).
+    from: `${END}body>`,
+    to: `<script src=${Q}assets/onyx/onyx-widget.js${Q}>${END}script>${END}body>`,
     times: 1,
   },
   {
